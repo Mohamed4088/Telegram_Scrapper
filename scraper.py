@@ -62,33 +62,34 @@ SEARCH_TERMS = [
     "free api key", "free llm", "open source tools",
     "telegram bots", "automation tools",
     "مواقع مفيدة", "قنوات مفيدة", "معلومات عامة",
-	# Telegram search / discovery
-"telegram search engine", "telegram directory", "telegram channels list",
-"telegram channels search", "telegram groups search", "telegram finder",
-"telegram explorer", "telegram catalog", "telegram index",
+    
+    # Telegram search / discovery
+    "telegram search engine", "telegram directory", "telegram channels list",
+    "telegram channels search", "telegram groups search", "telegram finder",
+    "telegram explorer", "telegram catalog", "telegram index",
 
-# Bots & tools
-"telegram search bot", "telegram finder bot", "telegram index bot",
-"telegram scraper bot", "telegram crawler", "telegram analytics bot",
+    # Bots & tools
+    "telegram search bot", "telegram finder bot", "telegram index bot",
+    "telegram scraper bot", "telegram crawler", "telegram analytics bot",
 
-# Growth / discovery
-"telegram trending channels", "telegram popular channels",
-"telegram viral channels", "telegram growth tips",
-"telegram marketing", "telegram seo",
+    # Growth / discovery
+    "telegram trending channels", "telegram popular channels",
+    "telegram viral channels", "telegram growth tips",
+    "telegram marketing", "telegram seo",
 
-# Tech side
-"telegram api", "telegram scraping", "telegram data",
-"telegram automation tools", "telegram bots development",
+    # Tech side
+    "telegram api", "telegram scraping", "telegram data",
+    "telegram automation tools", "telegram bots development",
 
-# عربي
-"محرك بحث تيليجرام", "بحث قنوات تيليجرام",
-"دليل قنوات تيليجرام", "اكتشاف قنوات",
-"بوت بحث تيليجرام", "قنوات تيليجرام مفيدة",
-"أقوى قنوات تيليجرام", "قنوات ترند تيليجرام"
+    # عربي
+    "محرك بحث تيليجرام", "بحث قنوات تيليجرام",
+    "دليل قنوات تيليجرام", "اكتشاف قنوات",
+    "بوت بحث تيليجرام", "قنوات تيليجرام مفيدة",
+    "أقوى قنوات تيليجرام", "قنوات ترند تيليجرام"
 ]
 
 PER_PAGE = 10
-MAX_PAGES = 50
+MAX_PAGES = 5  # تم التقليل إلى 5 لتفادي تجاوز مهلة تشغيل GitHub Actions (Timeout 6 Hours)
 SAVE_FILE = "telegram_channels.csv"
 
 def build_search_url(term, page):
@@ -103,7 +104,6 @@ def extract_username(url):
         return None
 
 def fetch_with_retry(url, is_telegram=False):
-    """دالة للتعامل مع الحظر المؤقت (Rate Limits) وأخطاء الاتصال"""
     max_retries = 3
     for attempt in range(max_retries):
         try:
@@ -168,7 +168,6 @@ def get_subscribers(username):
         return "error"
 
 def save_checkpoint(data_list):
-    """حفظ البيانات بشكل دوري لتجنب ضياعها إذا تم فصل جلسة Colab"""
     df = pd.DataFrame(data_list)
     df.to_csv(SAVE_FILE, index=False, encoding="utf-8-sig")
 
@@ -213,23 +212,24 @@ def main():
             time.sleep(random.uniform(3.0, 5.0))
             page += 1
 
-    # الترتيب النهائي
-    df = pd.read_csv(SAVE_FILE)
-    
-    def extract_number(text):
-        try:
-            return int(str(text).split()[0].replace(",", ""))
-        except:
-            return 0
+    # الترتيب النهائي وتأكيد وجود الملف
+    if os.path.exists(SAVE_FILE):
+        df = pd.read_csv(SAVE_FILE)
+        
+        if not df.empty:
+            def extract_number(text):
+                try:
+                    return int(str(text).split()[0].replace(",", ""))
+                except:
+                    return 0
 
-    df["subs_num"] = df["subscribers"].apply(extract_number)
-    df = df.sort_values(by="subs_num", ascending=False)
-    
-    # تنظيف العمود الإضافي قبل الحفظ النهائي
-    df.drop(columns=["subs_num"], inplace=True)
-    df.to_csv(SAVE_FILE, index=False, encoding="utf-8-sig")
-
-    print(f"\n[+] Task Completed. Data saved to {SAVE_FILE}")
+            df["subs_num"] = df["subscribers"].apply(extract_number)
+            df = df.sort_values(by="subs_num", ascending=False)
+            df.drop(columns=["subs_num"], inplace=True)
+            df.to_csv(SAVE_FILE, index=False, encoding="utf-8-sig")
+            print(f"\n[+] Task Completed. Data saved to {SAVE_FILE}")
+    else:
+        print("\n[-] No data collected to save.")
 
 if __name__ == "__main__":
     main()
