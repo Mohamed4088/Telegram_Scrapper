@@ -1,0 +1,24 @@
+name: Run Telegram Scraper
+on: [workflow_dispatch] # يسمح لك بتشغيله يدوياً بضغطة زر
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      - name: Install dependencies
+        run: |
+          pip install requests beautifulsoup4 pandas
+      - name: Run script
+        run: python scraper.py
+      - name: Commit and Push CSV
+        run: |
+          git config --global user.name "GitHub Action"
+          git config --global user.email "action@github.com"
+          git add telegram_channels.csv
+          git commit -m "Update scraped data"
+          git push
