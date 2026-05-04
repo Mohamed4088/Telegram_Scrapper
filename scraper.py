@@ -15,9 +15,76 @@ session.headers.update({
 })
 
 SEARCH_TERMS = [
-    "android",
-    "ai tools",
-    "machine learning"
+    # Android / Apps
+    "premium apk", "pro apps", "modded apps", "unlocked apk",
+    "android mod", "cracked software", "nova launcher setup",
+    "android apps paid free", "mod apk download", "apk hacks",
+
+    # عربي - تطبيقات
+    "تطبيقات مهكرة", "برامج برو", "أندرويد مدفوع",
+    "ألعاب مهكرة", "تطبيقات معدلة", "نسخة احترافية",
+
+    # AI / Tech
+    "machine learning", "best ai tools", "gpt4", "ai automation",
+    "chatgpt tools", "ai prompts", "openai tools", "llm tools",
+
+    # عربي - AI
+    "ذكاء اصطناعي", "أدوات الذكاء", "بوتات تليجرام",
+    "تقنيات حديثة", "شروحات تقنية",
+
+    # Programming / Learning
+    "free courses", "udemy coupons", "programming scripts",
+    "github repos", "python coding", "excel tutorials",
+    "data analysis python", "automation scripts",
+
+    # عربي - تعليم
+    "كورسات مجانية", "دورة برمجية", "تعليم إكسيل",
+    "تعلم البرمجة", "مكتبات بايثون", "كتب تقنية",
+
+    # Deals / UAE
+    "uae offers", "dubai discounts", "coupon codes",
+    "amazon deals uae", "noon coupons",
+    "uae promo codes", "dubai deals today",
+
+    # عربي - عروض
+    "عروض الإمارات", "أكواد خصم",
+    "تخفيضات دبي", "وفر فلوسك",
+
+    # Media / IPTV
+    "iptv links", "netflix premium", "movies hd",
+    "live tv", "series hd", "arab movies",
+
+    # عربي - محتوى
+    "قنوات مشفرة", "أفلام وثائقية", "بث مباشر",
+    "سيرفرات iptv", "مسلسلات حصرية",
+
+    # إضافي مفيد
+    "free api key", "free llm", "open source tools",
+    "telegram bots", "automation tools",
+    "مواقع مفيدة", "قنوات مفيدة", "معلومات عامة",
+	# Telegram search / discovery
+"telegram search engine", "telegram directory", "telegram channels list",
+"telegram channels search", "telegram groups search", "telegram finder",
+"telegram explorer", "telegram catalog", "telegram index",
+
+# Bots & tools
+"telegram search bot", "telegram finder bot", "telegram index bot",
+"telegram scraper bot", "telegram crawler", "telegram analytics bot",
+
+# Growth / discovery
+"telegram trending channels", "telegram popular channels",
+"telegram viral channels", "telegram growth tips",
+"telegram marketing", "telegram seo",
+
+# Tech side
+"telegram api", "telegram scraping", "telegram data",
+"telegram automation tools", "telegram bots development",
+
+# عربي
+"محرك بحث تيليجرام", "بحث قنوات تيليجرام",
+"دليل قنوات تيليجرام", "اكتشاف قنوات",
+"بوت بحث تيليجرام", "قنوات تيليجرام مفيدة",
+"أقوى قنوات تيليجرام", "قنوات ترند تيليجرام"
 ]
 
 PER_PAGE = 10
