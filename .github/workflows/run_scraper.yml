@@ -4,8 +4,13 @@ on: [workflow_dispatch]
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # لسحب كامل التاريخ وتجنب مشاكل الـ Push
       
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -14,16 +19,17 @@ jobs:
           
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install requests beautifulsoup4 pandas
           
       - name: Run script
         run: python scraper.py
         
-      - name: Commit and Push CSV
+      - name: Commit and Push changes
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          # سحب أي تغييرات قد تكون حدثت (مثل تحديث الملف) قبل الـ Push
+          git pull origin main 
           git add telegram_channels.csv
-          git commit -m "Update scraped data" || echo "No changes to commit"
-          git push
+          git commit -m "Add new scraped channels" || echo "No new data to commit"
+          git push origin main
